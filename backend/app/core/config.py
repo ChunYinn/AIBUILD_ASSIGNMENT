@@ -9,8 +9,6 @@ from pydantic_settings import SettingsConfigDict
 class Settings(BaseSettings):
     DATABASE_URL: str
     JWT_SECRET: str = "secret-key-change-in-production"
-
-    # Frontend settings
     FRONTEND_URL: str = 'http://localhost:8080'
 
     model_config = SettingsConfigDict(
