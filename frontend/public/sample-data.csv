@@ -1,0 +1,6 @@
+Product ID,Product Name,Opening Inventory on Day 1,Procurement Qty Day 1,Procurement Price Day 1,Sales Qty Day 1,Sales Price Day 1,Procurement Qty Day 2,Procurement Price Day 2,Sales Qty Day 2,Sales Price Day 2,Procurement Qty Day 3,Procurement Price Day 3,Sales Qty Day 3,Sales Price Day 3
+P001,Laptop Computer,50,20,1200,15,1500,25,1180,20,1520,10,1250,18,1550
+P002,Desktop Monitor,75,30,300,25,380,20,295,22,385,15,310,20,390
+P003,Wireless Mouse,200,100,25,80,35,75,24,70,36,50,26,60,37
+P004,Mechanical Keyboard,40,25,120,18,150,20,118,22,155,15,125,16,160
+P005,USB Drive 64GB,150,50,15,45,22,40,14,38,23,30,16,35,24
