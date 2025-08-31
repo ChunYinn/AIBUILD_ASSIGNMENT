@@ -6,12 +6,12 @@ import re
 from datetime import datetime, UTC
 from typing import Any, Dict, List
 
-from fastapi import APIRouter, UploadFile, File, HTTPException, status, Depends
+from fastapi import APIRouter, UploadFile, File, HTTPException, status
 from sqlmodel import select
 
-from app.core.auth import get_current_user
 from app.db import User, Product, ProcurementData, SalesData, ExcelUpload
-from app.dependencies.db import get_db
+from app.dependencies.auth import CurrentUser
+from app.dependencies.db import DB
 from app.models.upload import ExcelUploadResponse, ProductDataResponse, ProductListResponse
 
 router = APIRouter(prefix="/upload", tags=["Upload"])
@@ -238,9 +238,9 @@ def parse_excel_data(df: pd.DataFrame) -> List[Dict[str, Any]]:
 
 @router.post("/excel", response_model=ExcelUploadResponse)
 async def upload_excel(
-    file: UploadFile = File(...),
-    current_user: User = Depends(get_current_user),
-    db = Depends(get_db)
+    db: DB,
+    current_user: CurrentUser,
+    file: UploadFile = File(...)
 ):
     # Validate file type
     if not file.filename or not file.filename.endswith(('.xlsx', '.xls')):
@@ -405,8 +405,8 @@ async def upload_excel(
 
 @router.get("/products", response_model=ProductListResponse)
 async def get_user_products(
-    current_user: User = Depends(get_current_user),
-    db = Depends(get_db)
+    db: DB,
+    current_user: CurrentUser
 ):
     """Get all products for the current user"""
     statement = select(Product).where(Product.user_id == current_user.id)
