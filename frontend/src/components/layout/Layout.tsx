@@ -1,5 +1,6 @@
 import { Sidebar } from './Sidebar'
 import { useAuthStore } from '@/store/auth'
+import { useLocation } from 'react-router-dom'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -7,9 +8,13 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   const { isAuthenticated, isInitialized } = useAuthStore()
+  const location = useLocation()
 
-  // Don't show sidebar until auth state is initialized and user is authenticated
-  if (!isInitialized || !isAuthenticated) {
+  // Pages that should not show the sidebar even when authenticated
+  const noSidebarPages = ['/login', '/register']
+  const shouldShowSidebar = isAuthenticated && isInitialized && !noSidebarPages.includes(location.pathname)
+
+  if (!shouldShowSidebar) {
     return <>{children}</>
   }
 

@@ -39,7 +39,14 @@ function App() {
                 </ProtectedRoute>
               } 
             />
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route 
+              path="/" 
+              element={
+                <ProtectedRoute fallback={<Navigate to="/login" replace />}>
+                  <Navigate to="/dashboard" replace />
+                </ProtectedRoute>
+              } 
+            />
           </Routes>
         </Layout>
       </Router>

@@ -3,9 +3,10 @@ import { useAuthStore } from '@/store/auth'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
+  fallback?: React.ReactNode
 }
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children, fallback }: ProtectedRouteProps) => {
   const { isAuthenticated, isInitialized } = useAuthStore()
 
   // Wait for auth to initialize before making routing decisions
@@ -18,7 +19,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <>{fallback || <Navigate to="/login" replace />}</>
   }
 
   return <>{children}</>

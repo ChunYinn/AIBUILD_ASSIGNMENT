@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -24,8 +24,15 @@ type RegisterForm = z.infer<typeof registerSchema>
 export const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { register } = useAuthStore()
+  const { register, isAuthenticated, isInitialized } = useAuthStore()
   const navigate = useNavigate()
+
+  // Redirect to dashboard if already authenticated
+  useEffect(() => {
+    if (isInitialized && isAuthenticated) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isAuthenticated, isInitialized, navigate]);
 
   const form = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
